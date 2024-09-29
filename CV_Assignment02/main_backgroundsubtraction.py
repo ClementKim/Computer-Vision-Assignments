@@ -25,12 +25,15 @@ def main():
     frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
     frame_prev_gray = frame_current_gray
 
-
+    summation = frame_current_gray
     ##### background substraction
     for image_idx in range(len(input)):
 
         ##### calculate foreground region
-        diff = frame_current_gray - frame_prev_gray
+        # diff = frame_current_gray - frame_prev_gray
+        # diff_abs = np.abs(diff).astype(np.float64)
+
+        diff = frame_current_gray - (summation / (image_idx+1))
         diff_abs = np.abs(diff).astype(np.float64)
 
         ##### make mask by applying threshold
@@ -42,7 +45,7 @@ def main():
 
         ##### final result
         result = current_gray_masked_mk2.astype(np.uint8)
-        #cv.imshow('result', result) # colab does not support cv.imshow
+        cv.imshow('result', result) # colab does not support cv.imshow
 
         ##### renew background
         frame_prev_gray = frame_current_gray
@@ -58,6 +61,8 @@ def main():
         ##### read next frame
         frame_current = cv.imread(os.path.join(input_path, input[image_idx + 1]))
         frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
+
+        summation += frame_current_gray
 
         ##### If you want to stop, press ESC key
         k = cv.waitKey(30) & 0xff
