@@ -9,9 +9,9 @@ import evaluation as eval
 
 def main():
 
-    for i in range(1, 101):
+    for i in range(1, 201):
         ##### Set threshold
-        threshold = 10
+        threshold = i
 
         ##### Set path
         input_path = './input_image'    # input path
