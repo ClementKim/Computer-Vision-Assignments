@@ -42,9 +42,16 @@ def cal_result(datapath, resultpath):
         FP += np.sum(np.logical_and(gt_cvt_rev, result_gray).astype(np.uint8))
         GT += np.sum(gt_cvt) // 255
 
+
     print('TP : %d  ||  GT : %d ||  EST : %d' % (TP, GT, TP + FP))
     print('Recall : %.3f %%  ||  Precision : %.3f %%' %
           (((100.0 * TP) / GT), ((100.0 * TP) / (TP + FP))))
+
+    precision = ((100.0 * TP)/(TP + FP))
+    recall = ((100.0 * TP) / GT)
+
+    print('F1 score : %.3f %%' % (2 * ( (precision * recall) / (precision + recall) ) ))
+    print('\n\n')
 
 
 if __name__ == '__main__':

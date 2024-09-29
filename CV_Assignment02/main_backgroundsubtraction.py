@@ -10,8 +10,8 @@ import evaluation as eval
 def main():
 
     ##### Set threshold
-    threshold = 20
-    
+    threshold = 13
+
     ##### Set path
     input_path = './input_image'    # input path
     gt_path = './groundtruth'       # groundtruth path
@@ -69,4 +69,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    os.system('rm -rf ./result/*')
 
