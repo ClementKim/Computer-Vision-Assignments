@@ -47,7 +47,7 @@ def main():
 
         ##### final result
         result = current_gray_masked_mk2.astype(np.uint8)
-        cv.imshow('result', result) # colab does not support cv.imshow
+        # cv.imshow('result', result) # colab does not support cv.imshow
 
         ##### renew background
         frame_prev_gray = frame_current_gray
@@ -76,6 +76,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-    os.system('rm -rf ./result/*')
-
