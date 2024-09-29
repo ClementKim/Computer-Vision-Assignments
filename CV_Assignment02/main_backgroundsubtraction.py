@@ -10,7 +10,9 @@ import evaluation as eval
 def main():
 
     ##### Set threshold
-    threshold = 13
+    threshold = 35
+
+    print(f"threshold: {threshold}")
 
     ##### Set path
     input_path = './input_image'    # input path
