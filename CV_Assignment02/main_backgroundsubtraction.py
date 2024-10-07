@@ -3,15 +3,18 @@ import cv2 as cv
 import os
 import evaluation as eval
 
+from tqdm import tqdm
+
 ###############################################################
 ##### This code has been tested in Python 3.6 environment #####
 ###############################################################
 
 def main():
 
-    alpha = 0.001
-    while (alpha <= 1.000):
-        for thresh in range(1, 101):
+    alpha = [0.001, 0.01, 0.1, 1]
+    for i in tqdm(alpha):
+        print(f"alpha: {i}")
+        for thresh in tqdm(range(1, 101)):
             ##### Set threshold
             threshold = thresh
 
@@ -29,15 +32,12 @@ def main():
             frame_current = cv.imread(os.path.join(input_path, input[0]))
             frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
 
-            summation = frame_current_gray
+            summation = 0
 
             ##### background substraction
             for image_idx in range(len(input)):
 
                 ##### calculate foreground region
-                # diff = frame_current_gray - frame_prev_gray
-                # diff_abs = np.abs(diff).astype(np.float64)
-
                 diff = frame_current_gray - (summation / (image_idx+1))
                 diff_abs = np.abs(diff).astype(np.float64)
 
@@ -53,7 +53,7 @@ def main():
                 #cv.imshow('result', result) # colab does not support cv.imshow
 
                 ##### renew background
-                frame_prev_gray = alpha * frame_current_gray
+                frame_prev_gray = i * frame_current_gray
 
                 ##### make result file
                 ##### Please don't modify path
@@ -67,7 +67,7 @@ def main():
                 frame_current = cv.imread(os.path.join(input_path, input[image_idx + 1]))
                 frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
 
-                summation = summation * (1 - alpha) + frame_prev_gray
+                summation = summation * (1 - i) + frame_prev_gray
 
                 ##### If you want to stop, press ESC key
                 k = cv.waitKey(30) & 0xff
@@ -78,8 +78,6 @@ def main():
             eval.cal_result(gt_path, result_path)
 
             os.system("rm -rf result/*")
-
-        alpha += 0.001
 
 if __name__ == '__main__':
     main()
