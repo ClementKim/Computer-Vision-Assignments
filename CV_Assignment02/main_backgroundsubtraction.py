@@ -27,7 +27,7 @@ def main():
     frame_current = cv.imread(os.path.join(input_path, input[0]))
     frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
 
-    summation = frame_current_gray
+    summation = alpha * frame_current_gray
 
     ##### background substraction
     for image_idx in range(len(input)):
@@ -48,7 +48,10 @@ def main():
         # cv.imshow('result', result) # colab does not support cv.imshow
 
         ##### renew background
-        frame_prev_gray = alpha * frame_current_gray
+        try:
+            frame_prev_gray = alpha * frame_current_gray + (1 - alpha) * frame_prev_gray
+        except:
+            frame_prev_gray = alpha * frame_current_gray
 
         ##### make result file
         ##### Please don't modify path
@@ -62,7 +65,7 @@ def main():
         frame_current = cv.imread(os.path.join(input_path, input[image_idx + 1]))
         frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
 
-        summation += frame_current_gray * (1 - alpha) + frame_prev_gray
+        summation += frame_prev_gray
 
         ##### If you want to stop, press ESC key
         k = cv.waitKey(30) & 0xff
