@@ -45,7 +45,7 @@ def main():
 
         ##### final result
         result = current_gray_masked_mk2.astype(np.uint8)
-        cv.imshow('result', result) # colab does not support cv.imshow
+        # cv.imshow('result', result) # colab does not support cv.imshow
 
         ##### renew background
         frame_prev_gray = alpha * frame_current_gray
