@@ -18,6 +18,8 @@ cd CV_Assignment02
 
 python3 main_backgroundsubtraction.py
 
+echo 'done'
+
 cd ..
 
 rm -rf requirements.txt

@@ -11,12 +11,10 @@ from tqdm import tqdm
 
 def main():
 
-    alpha = [0.001, 0.01, 0.1, 1]
-    for i in tqdm(alpha):
-        print(f"alpha: {i}")
-        for thresh in tqdm(range(1, 101)):
+    alpha = 0.981
+        for thresh in tqdm(range(30, 41)):
             ##### Set threshold
-            threshold = thresh
+            threshold = 35
 
             print(f"threshold: {threshold}")
 
@@ -32,7 +30,7 @@ def main():
             frame_current = cv.imread(os.path.join(input_path, input[0]))
             frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
 
-            summation = 0
+            summation = frame_current_gray
 
             ##### background substraction
             for image_idx in range(len(input)):
@@ -53,7 +51,7 @@ def main():
                 #cv.imshow('result', result) # colab does not support cv.imshow
 
                 ##### renew background
-                frame_prev_gray = i * frame_current_gray
+                frame_prev_gray = alpha * frame_current_gray
 
                 ##### make result file
                 ##### Please don't modify path
@@ -67,7 +65,7 @@ def main():
                 frame_current = cv.imread(os.path.join(input_path, input[image_idx + 1]))
                 frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
 
-                summation = summation * (1 - i) + frame_prev_gray
+                summation += frame_current_gray * (1 - alpha) + frame_prev_gray
 
                 ##### If you want to stop, press ESC key
                 k = cv.waitKey(30) & 0xff
@@ -76,8 +74,6 @@ def main():
 
             ##### evaluation result
             eval.cal_result(gt_path, result_path)
-
-            os.system("rm -rf result/*")
-
+            
 if __name__ == '__main__':
     main()
