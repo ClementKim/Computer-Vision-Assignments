@@ -3,9 +3,6 @@ import cv2 as cv
 import os
 import evaluation as eval
 
-from sys import stdin
-from tqdm import tqdm
-
 ###############################################################
 ##### This code has been tested in Python 3.6 environment #####
 ###############################################################
@@ -28,7 +25,10 @@ def main():
     frame_current = cv.imread(os.path.join(input_path, input[0]))
     frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
 
+    ##### list for storing previous frames
     prev_frame_list = []
+
+    ##### variable for summation before mean calculation
     summation = 0
 
     ##### background substraction
