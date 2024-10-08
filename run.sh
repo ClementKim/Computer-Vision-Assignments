@@ -16,6 +16,9 @@ pip install --upgrade -r requirements.txt
 
 cd CV_Assignment02
 
+rm -rf result/*
+rm -rf res
+
 python3 main_backgroundsubtraction.py
 
 echo 'done'
