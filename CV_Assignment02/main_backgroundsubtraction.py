@@ -65,7 +65,10 @@ def main():
         frame_current = cv.imread(os.path.join(input_path, input[image_idx + 1]))
         frame_current_gray = cv.cvtColor(frame_current, cv.COLOR_BGR2GRAY).astype(np.float64)
 
-        summation += frame_prev_gray
+        if image_idx == 0:
+            pass
+        else:
+            summation += frame_prev_gray
 
         ##### If you want to stop, press ESC key
         k = cv.waitKey(30) & 0xff
