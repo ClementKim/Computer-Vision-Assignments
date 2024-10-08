@@ -30,18 +30,24 @@ def main():
 
     prev_frame_list = []
     #while (alpha <= 1.001):
-    for alpha in tqdm([0.001, 0.01, 0.1, 1.0]):
+    for alpha in tqdm([0.001, 0.01, 0.1, 1]):
 
         os.system("echo \"\" >> res")
         os.system(f"echo \"alpha: {alpha}\" >> res")
-        for threshold in tqdm(range(10, 51)):
+        for threshold in tqdm(range(30, 40)):
             ##### background substraction
             summation = 0
             for image_idx in range(len(input)):
-                for i in prev_frame_list:
-                    summation += (1 - alpha) * i
+                if len(prev_frame_list) == 0:
+                    summation = alpha * frame_current_gray
 
-                summation += alpha * frame_current_gray
+                else:
+                    for i in range(len(prev_frame_list)):
+                        if i == len(prev_frame_list) - 1:
+                            summation += alpha * prev_frame_list[i]
+                        else:
+                            summation += (1 - alpha) * prev_frame_list[i]
+
                 ##### calculate foreground region
                 diff = frame_current_gray - (summation / (image_idx+1))
                 diff_abs = np.abs(diff).astype(np.float64)
@@ -79,7 +85,7 @@ def main():
                 if k == 27:
                     break
 
-                summation = 0
+                summation = 0 
 
             ##### evaluation result
             f1 = eval.cal_result(gt_path, result_path)
