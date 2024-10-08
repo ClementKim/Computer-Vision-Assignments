@@ -43,18 +43,13 @@ def cal_result(datapath, resultpath):
         GT += np.sum(gt_cvt) // 255
 
 
-#print('TP : %d  ||  GT : %d ||  EST : %d' % (TP, GT, TP + FP))
-#print('Recall : %.3f %%  ||  Precision : %.3f %%' % (((100.0 * TP) / GT), ((100.0 * TP) / (TP + FP))))
+    print('TP : %d  ||  GT : %d ||  EST : %d' % (TP, GT, TP + FP))
+    print('Recall : %.3f %%  ||  Precision : %.3f %%' % (((100.0 * TP) / GT), ((100.0 * TP) / (TP + FP))))
 
     precision = ((100.0 * TP)/(TP + FP))
     recall = ((100.0 * TP) / GT)
 
-    f1 = (2 * ( (precision * recall) / (precision + recall) ))
-#print('F1 score : %.3f %%' % f1 )
-#print('\n\n')
-
-    return f1
-
+    print('F1 score : %.3f %%' % (2 * ( (precision * recall) / (precision + recall) )) )
 
 if __name__ == '__main__':
     cal_result('./groundtruth', './result')
