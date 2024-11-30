@@ -83,10 +83,9 @@ class Vgg(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
-
-        self.fc = nn.Linear(2048, num_classes)
-
-        self.classifier = nn.Softmax(1)
+        self.classifier = nn.Sequential(
+                nn.Linear(2048, num_classes),
+                nn.Softmax(1) )
 
     def forward(self, x):
         x = self.features(x)
@@ -94,7 +93,6 @@ class Vgg(nn.Module):
         # x.size()=[batch_size, channel, width, height] 
         #          [128, 512, 2, 2] 
         # flatten 결과 => [128, 512x2x2] 
-        x = self.fc(x)
         x = self.classifier(x)
         return x
 
@@ -171,6 +169,7 @@ for epoch in range(0, 165):
         learning_rate = learning_rate * 0.1
     else:
         learning_rate = learning_rate * 0.01
+
     for param_group in optimizer.param_groups:
         param_group['learning_rate'] = learning_rate
 

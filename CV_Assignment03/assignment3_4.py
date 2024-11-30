@@ -12,6 +12,8 @@ start_time = time.time()
 batch_size = 128
 learning_rate = 0.1
 
+torch.manual_seed(80)
+
 transform_train = transforms.Compose([
     transforms.RandomCrop(32, padding=4),
     transforms.RandomHorizontalFlip(),
@@ -83,10 +85,8 @@ class Vgg(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
-
-        self.fc = nn.Linear(2048, num_classes)
-
-        self.classifier = nn.Softmax(1)
+        
+        self.classifier = nn.Linear(2048, num_classes)
 
     def forward(self, x):
         x = self.features(x)
@@ -94,7 +94,6 @@ class Vgg(nn.Module):
         # x.size()=[batch_size, channel, width, height] 
         #          [128, 512, 2, 2] 
         # flatten 결과 => [128, 512x2x2] 
-        x = self.fc(x)
         x = self.classifier(x)
         return x
 
