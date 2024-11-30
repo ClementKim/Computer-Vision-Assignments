@@ -27,12 +27,12 @@ transform_test = transforms.Compose([
 ])
 
 
-train_dataset = datasets.CIFAR10(root='./content/pytorch/data/cifar10/',
+train_dataset = datasets.CIFAR10(root='/content/pytorch/data/cifar10/',
                                  train=True,
                                  transform=transform_train,
                                  download=True)
 
-test_dataset = datasets.CIFAR10(root='./content/pytorch/data/cifar10/',
+test_dataset = datasets.CIFAR10(root='/content/pytorch/data/cifar10/',
                                 train=False,
                                 transform=transform_test)
 
@@ -83,8 +83,7 @@ class Vgg(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
-#        self.classifier = nn.Linear(2048, num_classes)
-        self.classifier = nn.Softmax(1)
+        self.classifier = nn.Linear(2048, num_classes)
 
     def forward(self, x):
         x = self.features(x)
